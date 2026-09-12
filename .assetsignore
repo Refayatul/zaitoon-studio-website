@@ -1,0 +1,19 @@
+# Cloudflare Worker Static Assets Ignore Rules
+# Exclude version control, build tools, credentials, secrets, test suites, and metadata
+
+.git
+.git/**
+.wrangler
+.wrangler/**
+.env*
+.dev.vars*
+*.py
+*.pyc
+__pycache__
+__pycache__/**
+wrangler.jsonc
+README.md
+vercel.json
+test_site.py
+.gitignore
+.assetsignore

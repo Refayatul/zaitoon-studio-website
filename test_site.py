@@ -44,6 +44,8 @@ REQUIRED_ASSETS = [
     SITE_DIR / "assets" / "zaitoon_studio_app_icon_1024.png",
     SITE_DIR / "vercel.json",
     SITE_DIR / "_headers",
+    SITE_DIR / "wrangler.jsonc",
+    SITE_DIR / ".assetsignore",
 ]
 
 
@@ -109,6 +111,36 @@ def test_vercel_and_cloudflare_config():
     assert "X-Content-Type-Options: nosniff" in h_file.read_text()
 
 
+def test_assetsignore_security():
+    """Ensure .assetsignore strictly blocks .git, .env, .dev.vars, and build configs from static serving."""
+    w_file = SITE_DIR / "wrangler.jsonc"
+    assert w_file.exists(), "wrangler.jsonc missing"
+    w_data = json.loads(w_file.read_text())
+    assert w_data.get("name") == "zaitoon"
+    assert "assets" in w_data
+    assert w_data["assets"].get("directory") == "."
+
+    ai_file = SITE_DIR / ".assetsignore"
+    assert ai_file.exists(), ".assetsignore missing"
+    rules = [line.strip() for line in ai_file.read_text().splitlines() if line.strip() and not line.startswith("#")]
+
+    mandatory_rules = [
+        ".git",
+        ".git/**",
+        ".wrangler",
+        ".wrangler/**",
+        ".env*",
+        ".dev.vars*",
+        "*.py",
+        "wrangler.jsonc",
+        "README.md",
+        "vercel.json",
+        "test_site.py",
+    ]
+    for rule in mandatory_rules:
+        assert rule in rules, f"Mandatory ignore rule '{rule}' missing from .assetsignore"
+
+
 def test_live_static_http_server():
     """Spawns an ephemeral static server and validates HTTP 200 on all routes."""
     class Handler(http.server.SimpleHTTPRequestHandler):
@@ -156,5 +188,6 @@ if __name__ == "__main__":
     test_no_broken_localhost_hrefs()
     test_autopsy_no_instagram()
     test_vercel_and_cloudflare_config()
+    test_assetsignore_security()
     test_live_static_http_server()
-    print("✓ All 7 website validation test suites PASSED successfully!")
+    print("✓ All 8 website validation test suites PASSED successfully!")
