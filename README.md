@@ -1,6 +1,6 @@
 # Zaitoon Studio — Official Public Website & TikTok Review Hub
 
-This repository contains the public-facing static landing site, Terms of Service, Privacy Policy, and TikTok App Review demonstration documentation for **Zaitoon Studio** (TikTok App ID `7684433488619276306`).
+This repository contains the public-facing static landing site, Terms of Service, Privacy Policy, and TikTok App Review demonstration documentation for **Zaitoon Studio** (TikTok App ID `7684650763565697042`).
 
 ---
 
@@ -75,7 +75,7 @@ You can deploy this site in under 2 minutes completely free on either **Cloudfla
 
 ## 3. TikTok Developer Portal URL Mapping
 
-Once deployed to Cloudflare Pages (e.g. `zaitoon-studio.pages.dev`), fill the pending fields in the [TikTok Developer Portal](https://developers.tiktok.com/app/7684433488619276306/pending):
+Once deployed to Cloudflare Pages (e.g. `zaitoon-studio.pages.dev`), fill the pending fields in the [TikTok Developer Portal](https://developers.tiktok.com/app/7684650763565697042/pending):
 
 | Field in TikTok Portal | Value to Enter |
 | :--- | :--- |
