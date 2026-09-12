@@ -8,14 +8,25 @@ Validates:
 4. No broken local links or accidental localhost href references in public pages.
 5. All asset links (CSS, JS, PNG) exist on disk.
 6. Responsive meta viewport tag and valid document structure.
-7. Valid vercel.json and Cloudflare Pages configuration files.
+7. Valid vercel.json and Cloudflare Pages _headers configuration.
+8. Zero mentions of Instagram for Autopsy BD (strictly verified).
+9. Live HTTP server test serving clean URLs and .html URLs with HTTP 200.
 """
 
+import http.server
 import json
 import re
+import socketserver
+import threading
+import urllib.request
 from pathlib import Path
+try:
+    import pytest
+except ImportError:
+    pytest = None
 
 SITE_DIR = Path(__file__).resolve().parent
+
 
 REQUIRED_PAGES = [
     SITE_DIR / "index.html",
@@ -33,7 +44,6 @@ REQUIRED_ASSETS = [
     SITE_DIR / "assets" / "zaitoon_studio_app_icon_1024.png",
     SITE_DIR / "vercel.json",
     SITE_DIR / "_headers",
-    SITE_DIR / "_routes.json",
 ]
 
 
@@ -80,15 +90,62 @@ def test_no_broken_localhost_hrefs():
         assert len(matches) == 0, f"Found public link pointing to localhost in {p}: {matches}"
 
 
+def test_autopsy_no_instagram():
+    """Ensure Autopsy BD has zero mentions or claims regarding Instagram."""
+    for p in SITE_DIR.rglob("*.html"):
+        text = p.read_text(encoding="utf-8").lower()
+        if "autopsy" in text:
+            assert "instagram" not in text, f"Autopsy BD mentions Instagram in {p}"
+
+
 def test_vercel_and_cloudflare_config():
     v_file = SITE_DIR / "vercel.json"
     data = json.loads(v_file.read_text())
     assert data.get("cleanUrls") is True
     assert "headers" in data
 
-    r_file = SITE_DIR / "_routes.json"
-    r_data = json.loads(r_file.read_text())
-    assert r_data.get("version") == 1
+    h_file = SITE_DIR / "_headers"
+    assert h_file.exists()
+    assert "X-Content-Type-Options: nosniff" in h_file.read_text()
+
+
+def test_live_static_http_server():
+    """Spawns an ephemeral static server and validates HTTP 200 on all routes."""
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=str(SITE_DIR), **kwargs)
+
+        def log_message(self, format, *args):
+            pass  # quiet
+
+    server = socketserver.TCPServer(("127.0.0.1", 0), Handler)
+    port = server.server_address[1]
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+
+    routes = [
+        "/",
+        "/index.html",
+        "/privacy/",
+        "/privacy.html",
+        "/terms/",
+        "/terms.html",
+        "/review/",
+        "/review.html",
+        "/css/style.css",
+        "/js/main.js",
+        "/assets/zaitoon_studio_app_icon_1024.png",
+    ]
+
+    try:
+        for r in routes:
+            url = f"http://127.0.0.1:{port}{r}"
+            with urllib.request.urlopen(url, timeout=5) as resp:
+                assert resp.status == 200, f"Route {r} failed with status {resp.status}"
+                assert len(resp.read()) > 0, f"Route {r} returned empty body"
+    finally:
+        server.shutdown()
+        server.server_close()
 
 
 if __name__ == "__main__":
@@ -97,5 +154,7 @@ if __name__ == "__main__":
     test_required_assets_exist()
     test_no_secrets_embedded()
     test_no_broken_localhost_hrefs()
+    test_autopsy_no_instagram()
     test_vercel_and_cloudflare_config()
-    print("✓ All 5 website validation test suites PASSED successfully!")
+    test_live_static_http_server()
+    print("✓ All 7 website validation test suites PASSED successfully!")

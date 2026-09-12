@@ -47,10 +47,13 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; font-size: 0.95rem;">
           <div><strong>App Name:</strong> Zaitoon Studio</div>
           <div><strong>App ID:</strong> <code>7684433488619276306</code></div>
-          <div><strong>Platform:</strong> Desktop / Local Studio Engine</div>
-          <div><strong>Redirect URI:</strong> <code>http://127.0.0.1:8080/callback/</code></div>
+          <div><strong>Platform:</strong> Desktop Native Creator Studio</div>
+          <div><strong>OAuth Loopback URI:</strong> <code>http://127.0.0.1:8080/callback/</code></div>
           <div><strong>Products:</strong> Login Kit, Content Posting API</div>
           <div><strong>Posting Mode:</strong> Direct Post (FILE_UPLOAD)</div>
+        </div>
+        <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+          Note: In accordance with RFC 8252 for desktop applications, the OAuth callback uses local loopback IP redirection. The public production website is hosted statically for review and policy documentation.
         </div>
       </div>
 
@@ -74,9 +77,9 @@
         <div class="step-item">
           <span class="demo-scope-pill">video.publish</span>
           <div class="step-content">
-            <h3 style="font-size: 1.1rem;">Direct Post Initialization & Capabilities</h3>
+            <h3 style="font-size: 1.1rem;">Direct Post Capabilities & Initialization</h3>
             <p>
-              Enables the application to query <code>/v2/post/publish/creator_info/query/</code> to fetch available privacy options, interaction permissions (comments, Duet, Stitch), and max post duration. Following explicit creator consent, initiates the publishing session via <code>/v2/post/publish/video/init/</code>.
+              Enables the application to query <code>/v2/post/publish/creator_info/query/</code> to fetch available privacy options, interaction permissions (comments, Duet, Stitch), and max post duration. Following explicit creator review and consent, initiates the publishing session via <code>/v2/post/publish/video/init/</code> and monitors processing status via <code>/publish/status/fetch/</code>.
             </p>
           </div>
         </div>
@@ -86,18 +89,94 @@
           <div class="step-content">
             <h3 style="font-size: 1.1rem;">Client-Side Media Chunk Transfer</h3>
             <p>
-              Authorizes uploading binary video chunks from the creator's local device to the presigned upload URL provided by TikTok during the Direct Post initialization step.
+              Authorizes uploading binary video chunks from the creator's local device to the presigned upload URL provided by TikTok during the Direct Post initialization step (using the official <code>FILE_UPLOAD</code> method).
             </p>
           </div>
         </div>
       </div>
 
-      <!-- UX Compliance Details -->
-      <h2>2. UX Compliance with TikTok Content Sharing Guidelines</h2>
+      <!-- The 9-Step Creator-in-the-Loop Progression -->
+      <h2>2. Step-by-Step Creator-in-the-Loop Workflow</h2>
       <p>
-        The Zaitoon Studio desktop interface strictly adheres to each UX requirement set forth in Section 2 of TikTok's Content Sharing Guidelines:
+        Zaitoon Studio does <strong>not</strong> perform unrestricted or unattended headless TikTok publishing. Every publication strictly follows this 9-step progression:
       </p>
 
+      <div class="workflow-steps" style="margin-bottom: 3rem;">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Creator Opens Review Workflow</h3>
+            <p>The creator launches the local Creator Review Studio interface on their workstation to inspect rendered short-form video artifacts ready in the local queue.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Creator Sees Account & Identity Information</h3>
+            <p>The studio authenticates via Login Kit and queries <code>creator_info/query/</code>. The creator's nickname, verified username, avatar, and max duration privilege are prominently displayed.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Creator Previews Content</h3>
+            <p>The creator plays the full vertical video locally in an HTML5 player, verifying video audio, pacing, visuals, and subtitle timing.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Creator Edits Caption & Hashtags</h3>
+            <p>The creator enters and reviews the post title and hashtags. A real-time character counter enforces the 2,200 character ceiling using exact UTF-16 code units.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Creator Selects Privacy Level</h3>
+            <p>The dropdown is populated dynamically from <code>creator_info.privacy_level_options</code>. In compliance with TikTok guidelines, there is <strong>no default value</strong>; the creator must manually choose.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3>Creator Controls Relevant Interaction Settings</h3>
+            <p>Toggles for Comments, Duet, and Stitch are unchecked by default. If the creator's TikTok privacy settings prohibit an interaction, the toggle is automatically disabled and greyed out.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">7</div>
+          <div class="step-content">
+            <h3>Creator Discloses Content Details</h3>
+            <p>Commercial Content Disclosure is OFF by default. If enabled, creators declare Brand Organic or Branded Content (which cannot be private). AIGC labeling is truthfully toggled based on channel type.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">8</div>
+          <div class="step-content">
+            <h3>Creator Gives Explicit Approval</h3>
+            <p>The "Publish to TikTok" button remains completely disabled until the creator explicitly checks the mandatory <em>Music Usage Confirmation</em> statement.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">9</div>
+          <div class="step-content">
+            <h3>Publish & Status Tracking</h3>
+            <p>Upon creator click, the video is transferred via <code>FILE_UPLOAD</code> and real-time status is polled via <code>/publish/status/fetch/</code> until processing completes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- UX Compliance Mockup -->
+      <h2>3. Review Studio Interface Layout</h2>
       <div class="demo-card">
         <div class="demo-screen-mockup">
           <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; width: 100%; max-width: 680px; text-align: left;">
@@ -105,7 +184,7 @@
               <div style="display: flex; align-items: center; gap: 0.75rem;">
                 <div style="width: 36px; height: 36px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center;">👤</div>
                 <div>
-                  <div style="font-weight: 700; font-size: 0.95rem; color: #f8fafc;">@autopsybd (ID: 7182938491)</div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: #f8fafc;">@creator_handle (Authorized Workspace)</div>
                   <div style="font-size: 0.75rem; color: #10b981;">✓ Authorized via Login Kit • Max Duration: 600s</div>
                 </div>
               </div>
@@ -121,7 +200,7 @@
               <div>
                 <div style="margin-bottom: 0.75rem;">
                   <label style="display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 0.25rem;">Caption & Hashtags (UTF-16):</label>
-                  <div style="background: #1e293b; padding: 0.5rem; border-radius: 4px; font-size: 0.8rem; color: #cbd5e1;">Secret Tech Exposed #TechSecrets</div>
+                  <div style="background: #1e293b; padding: 0.5rem; border-radius: 4px; font-size: 0.8rem; color: #cbd5e1;">Reviewing video description and hashtags...</div>
                 </div>
                 <div style="margin-bottom: 0.75rem;">
                   <label style="display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 0.25rem;">Privacy (No default pre-selection):</label>
@@ -159,7 +238,7 @@
       </div>
 
       <!-- Screencast Demo Section -->
-      <h2 id="demo-video">3. End-to-End Screencast Demonstration</h2>
+      <h2 id="demo-video">4. End-to-End Screencast Demonstration</h2>
       <p>
         The screencast demonstration showcases the entire workflow from render inspection to TikTok Direct Post completion:
       </p>
@@ -171,12 +250,12 @@
           Demonstrating: 1) OAuth authentication via Login Kit, 2) creator capability loading, 3) video preview playback, 4) metadata editing, 5) dynamic privacy selection, 6) music consent, and 7) Direct Post upload completion.
         </p>
         <div style="display: inline-block; background: rgba(6,182,212,0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600;">
-          Demo Video URL: Available upon request / Submitted in Developer Portal Application
+          Demo Video URL: Available in TikTok Developer Portal Application Submission
         </div>
       </div>
 
       <!-- Reviewer Contact -->
-      <h2>4. Developer & Reviewer Contact</h2>
+      <h2>5. Developer & Reviewer Contact</h2>
       <p>
         If the TikTok App Review team requires a live test session, staging environment access, or additional technical walkthroughs, please contact:
       </p>
