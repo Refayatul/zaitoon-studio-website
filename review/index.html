@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok App Review Guide & Demo — Zaitoon Studio</title>
+  <meta name="description" content="Official TikTok App Review Guide, requested scopes justification, and creator review demonstration for Zaitoon Studio (App ID: 7684433488619276306).">
+  <link rel="icon" type="image/png" href="/assets/zaitoon_studio_app_icon_1024.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="/" class="brand-link">
+        <img src="/assets/zaitoon_studio_app_icon_1024.png" alt="Zaitoon Studio Logo" class="brand-icon">
+        <span>Zaitoon Studio</span>
+      </a>
+      <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/#workflow" class="nav-link">Creator Workflow</a></li>
+          <li><a href="/review" class="nav-link active">TikTok Review Guide</a></li>
+          <li><a href="/terms" class="nav-link">Terms</a></li>
+          <li><a href="/privacy" class="nav-link">Privacy</a></li>
+          <li><a href="/#contact" class="nav-link nav-btn">Support</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container legal-content" style="max-width: 960px;">
+    <div class="legal-header">
+      <div class="section-tag">TikTok Developer Integration</div>
+      <h1>TikTok App Review Guide & Demo</h1>
+      <div class="updated-tag">Application: Zaitoon Studio • App ID: 7684433488619276306 • Category: Photo & Video</div>
+    </div>
+
+    <div class="legal-body">
+      <p>
+        This documentation page is specifically prepared for the <strong>TikTok Developer Review Team</strong>. It details the product identity, requested API scopes, architectural justification, and interactive user experience (UX) compliance of <strong>Zaitoon Studio</strong>.
+      </p>
+
+      <!-- App Details Card -->
+      <div class="feature-card" style="margin-bottom: 2.5rem; background: var(--bg-card);">
+        <h3 style="color: var(--accent-cyan); margin-bottom: 1rem;">Application Identity Verification</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; font-size: 0.95rem;">
+          <div><strong>App Name:</strong> Zaitoon Studio</div>
+          <div><strong>App ID:</strong> <code>7684433488619276306</code></div>
+          <div><strong>Platform:</strong> Desktop / Local Studio Engine</div>
+          <div><strong>Redirect URI:</strong> <code>http://127.0.0.1:8080/callback/</code></div>
+          <div><strong>Products:</strong> Login Kit, Content Posting API</div>
+          <div><strong>Posting Mode:</strong> Direct Post (FILE_UPLOAD)</div>
+        </div>
+      </div>
+
+      <!-- Scopes Justification -->
+      <h2 id="scopes">1. Requested Scopes & Business Justification</h2>
+      <p>
+        Zaitoon Studio requests only the minimal set of scopes strictly required to deliver a transparent, creator-controlled publishing experience:
+      </p>
+
+      <div class="workflow-steps" style="margin-bottom: 3rem;">
+        <div class="step-item">
+          <span class="demo-scope-pill">user.info.basic</span>
+          <div class="step-content">
+            <h3 style="font-size: 1.1rem;">Creator Identity Awareness</h3>
+            <p>
+              Used exclusively to display the creator's verified display nickname, username handle, and avatar in the Creator Review Studio header. In accordance with TikTok UX guidelines, this ensures the creator has full awareness of which specific TikTok account will receive the upload before initiating transfer.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <span class="demo-scope-pill">video.publish</span>
+          <div class="step-content">
+            <h3 style="font-size: 1.1rem;">Direct Post Initialization & Capabilities</h3>
+            <p>
+              Enables the application to query <code>/v2/post/publish/creator_info/query/</code> to fetch available privacy options, interaction permissions (comments, Duet, Stitch), and max post duration. Following explicit creator consent, initiates the publishing session via <code>/v2/post/publish/video/init/</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <span class="demo-scope-pill">video.upload</span>
+          <div class="step-content">
+            <h3 style="font-size: 1.1rem;">Client-Side Media Chunk Transfer</h3>
+            <p>
+              Authorizes uploading binary video chunks from the creator's local device to the presigned upload URL provided by TikTok during the Direct Post initialization step.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- UX Compliance Details -->
+      <h2>2. UX Compliance with TikTok Content Sharing Guidelines</h2>
+      <p>
+        The Zaitoon Studio desktop interface strictly adheres to each UX requirement set forth in Section 2 of TikTok's Content Sharing Guidelines:
+      </p>
+
+      <div class="demo-card">
+        <div class="demo-screen-mockup">
+          <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; width: 100%; max-width: 680px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 1rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center;">👤</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: #f8fafc;">@autopsybd (ID: 7182938491)</div>
+                  <div style="font-size: 0.75rem; color: #10b981;">✓ Authorized via Login Kit • Max Duration: 600s</div>
+                </div>
+              </div>
+              <span style="font-size: 0.75rem; background: rgba(6,182,212,0.15); color: #06b6d4; padding: 0.25rem 0.5rem; border-radius: 4px;">Direct Post</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.85rem;">
+              <div style="background: #000; border-radius: 6px; padding: 1rem; text-align: center; color: #94a3b8;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">▶</div>
+                <div>HTML5 Local Video Preview Player</div>
+                <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">SHA256: 4e9f3b82... • 1080x1920 MP4</div>
+              </div>
+              <div>
+                <div style="margin-bottom: 0.75rem;">
+                  <label style="display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 0.25rem;">Caption & Hashtags (UTF-16):</label>
+                  <div style="background: #1e293b; padding: 0.5rem; border-radius: 4px; font-size: 0.8rem; color: #cbd5e1;">Secret Tech Exposed #TechSecrets</div>
+                </div>
+                <div style="margin-bottom: 0.75rem;">
+                  <label style="display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 0.25rem;">Privacy (No default pre-selection):</label>
+                  <div style="background: #1e293b; padding: 0.4rem; border-radius: 4px; font-size: 0.8rem; color: #38bdf8;">[ Select Privacy Level ]</div>
+                </div>
+                <div style="margin-bottom: 0.75rem; font-size: 0.75rem; color: #94a3b8;">
+                  <div>☐ Allow Comments</div>
+                  <div>☐ Allow Duet (greyed out if restricted)</div>
+                  <div>☐ Allow Stitch (greyed out if restricted)</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); border-radius: 6px; padding: 0.75rem; margin-top: 1rem; font-size: 0.8rem;">
+              ☑ By posting, you agree to TikTok's <strong>Music Usage Confirmation</strong>.
+            </div>
+
+            <div style="margin-top: 1rem; text-align: center;">
+              <span style="display: inline-block; background: #10b981; color: #04121a; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1.25rem; border-radius: 6px;">
+                Approve & Publish to TikTok (Direct Post)
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-details">
+          <h4>Key UX Safeguards Implemented:</h4>
+          <ul>
+            <li><strong>Dynamic Privacy Selection:</strong> Dropdown options are populated live from <code>creator_info.privacy_level_options</code>. No default value is selected; manual selection is required.</li>
+            <li><strong>Interaction Flags:</strong> Duet, Stitch, and Comments are unchecked by default. If the creator's TikTok privacy settings prohibit an interaction, the toggle is greyed out with an explanatory notice.</li>
+            <li><strong>Commercial Content Disclosure:</strong> Turned OFF by default. If enabled, creators must select Brand Organic or Branded Content. Branded Content visibility is strictly prevented from being set to Private (<code>SELF_ONLY</code>).</li>
+            <li><strong>UTF-16 Character Limit:</strong> Real-time rune counter enforces the 2,200 character boundary using exact UTF-16 code units (accurately accounting for emoji surrogate pairs and Bengali conjuncts).</li>
+            <li><strong>Explicit User Consent:</strong> The Publish button is disabled by default. It activates only after the creator confirms the mandatory Music Usage Confirmation statement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screencast Demo Section -->
+      <h2 id="demo-video">3. End-to-End Screencast Demonstration</h2>
+      <p>
+        The screencast demonstration showcases the entire workflow from render inspection to TikTok Direct Post completion:
+      </p>
+
+      <div class="feature-card" style="text-align: center; padding: 3rem 2rem; background: var(--bg-card); margin-bottom: 3rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📹</div>
+        <h3 style="margin-bottom: 0.5rem;">Screencast Video Walkthrough</h3>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 1.5rem;">
+          Demonstrating: 1) OAuth authentication via Login Kit, 2) creator capability loading, 3) video preview playback, 4) metadata editing, 5) dynamic privacy selection, 6) music consent, and 7) Direct Post upload completion.
+        </p>
+        <div style="display: inline-block; background: rgba(6,182,212,0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600;">
+          Demo Video URL: Available upon request / Submitted in Developer Portal Application
+        </div>
+      </div>
+
+      <!-- Reviewer Contact -->
+      <h2>4. Developer & Reviewer Contact</h2>
+      <p>
+        If the TikTok App Review team requires a live test session, staging environment access, or additional technical walkthroughs, please contact:
+      </p>
+      <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 1rem;">
+        <p style="margin-bottom: 0.5rem;"><strong>Lead Developer:</strong> Md. Refayatul Islam</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Direct Email:</strong> <a href="mailto:refayatul@gmail.com">refayatul@gmail.com</a></p>
+        <p style="margin-bottom: 0.5rem;"><strong>Developer App:</strong> Zaitoon Studio (<code>7684433488619276306</code>)</p>
+        <p style="margin-bottom: 0;"><strong>Response SLA:</strong> We monitor review communications continuously and respond within 12 hours.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-link" style="margin-bottom: 0.75rem;">
+            <img src="/assets/zaitoon_studio_app_icon_1024.png" alt="Zaitoon Studio" class="brand-icon" style="width: 32px; height: 32px;">
+            <span>Zaitoon Studio</span>
+          </div>
+          <p>An umbrella vertical video production and creator review studio.</p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="/#overview">Overview</a></li>
+            <li><a href="/#workflow">Workflow</a></li>
+            <li><a href="/review">TikTok Review Guide</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Legal</h5>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="mailto:refayatul@gmail.com">refayatul@gmail.com</a></li>
+            <li><a href="https://github.com/Refayatul/zaitoon-studio" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Zaitoon Studio. All rights reserved.</div>
+        <div>Compliant with TikTok Content Sharing Guidelines</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

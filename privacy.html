@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Zaitoon Studio</title>
+  <meta name="description" content="Privacy Policy for Zaitoon Studio creator publishing and video production software.">
+  <link rel="icon" type="image/png" href="/assets/zaitoon_studio_app_icon_1024.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="/" class="brand-link">
+        <img src="/assets/zaitoon_studio_app_icon_1024.png" alt="Zaitoon Studio Logo" class="brand-icon">
+        <span>Zaitoon Studio</span>
+      </a>
+      <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/#workflow" class="nav-link">Creator Workflow</a></li>
+          <li><a href="/review" class="nav-link">TikTok Review Guide</a></li>
+          <li><a href="/terms" class="nav-link">Terms</a></li>
+          <li><a href="/privacy" class="nav-link active">Privacy</a></li>
+          <li><a href="/#contact" class="nav-link nav-btn">Support</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container legal-content">
+    <div class="legal-header">
+      <div class="section-tag">Legal & Compliance</div>
+      <h1>Privacy Policy</h1>
+      <div class="updated-tag">Effective Date: September 13, 2026 • Last Updated: September 13, 2026</div>
+    </div>
+
+    <div class="legal-body">
+      <p>
+        Zaitoon Studio ("we," "our," or "the Application") is an umbrella short-form video production and publishing studio designed for authorized video creators and digital workspaces (including Zaitoon BD and Autopsy BD). We are committed to safeguarding the privacy of creators and users who utilize our local review and Direct Post software.
+      </p>
+      <p>
+        This Privacy Policy outlines how Zaitoon Studio accesses, processes, and protects user data when connecting to third-party creator platforms, specifically through the <strong>TikTok Login Kit</strong> and <strong>TikTok Content Posting API</strong>.
+      </p>
+
+      <h2>1. Information We Collect and Receive</h2>
+      <p>
+        Zaitoon Studio operates on a client-first, privacy-by-design architecture. We collect and access only the minimal data strictly necessary to facilitate authorized video publishing:
+      </p>
+      <ul>
+        <li>
+          <strong>TikTok Profile Information:</strong> When a creator connects their account via TikTok Login Kit under the <code>user.info.basic</code> scope, we receive the creator's display nickname, unique username, and profile avatar URL. This information is displayed in the local Creator Review Studio interface so the creator can visually verify which account will receive the upload.
+        </li>
+        <li>
+          <strong>Creator Capabilities & Permissions:</strong> Via the TikTok <code>/v2/post/publish/creator_info/query/</code> endpoint under the <code>video.publish</code> scope, we query available privacy options (e.g., <code>PUBLIC_TO_EVERYONE</code>, <code>MUTUAL_FOLLOW_FRIENDS</code>, <code>SELF_ONLY</code>), audience interaction settings (whether comments, Duets, or Stitches are disabled in account settings), and the maximum allowed video duration.
+        </li>
+        <li>
+          <strong>OAuth Tokens:</strong> When authorized, the application receives temporary access tokens and refresh tokens issued by TikTok. These tokens are stored strictly on the creator's local device in secured application configuration stores (such as <code>tiktok_tokens.json</code>) and are never transmitted to external databases or third-party servers.
+        </li>
+        <li>
+          <strong>Local Media Metadata:</strong> File size, duration, and cryptographic SHA-256 hashes of locally rendered MP4 files are computed locally for idempotency protection (preventing accidental duplicate uploads).
+        </li>
+      </ul>
+
+      <h2>2. What We Do NOT Collect</h2>
+      <ul>
+        <li>We do <strong>not</strong> collect personal financial information, credit card numbers, or billing data.</li>
+        <li>We do <strong>not</strong> access creator private messages, direct messages (DMs), or phone contacts.</li>
+        <li>We do <strong>not</strong> use third-party analytics trackers, cookies, or behavioral advertising SDKs on our review software.</li>
+        <li>We do <strong>not</strong> harvest, sell, rent, or monetize creator data or publishing metrics.</li>
+      </ul>
+
+      <h2>3. How Information Is Used</h2>
+      <p>
+        All retrieved information is used exclusively to power the creator review and Direct Post publishing workflow:
+      </p>
+      <ul>
+        <li>To confirm creator identity and prevent cross-channel misposting between workspaces.</li>
+        <li>To dynamically render available privacy options and interaction toggles in the review UI without pre-selecting defaults.</li>
+        <li>To enforce video duration constraints prior to media transfer.</li>
+        <li>To securely transmit authorized video files directly to TikTok servers via the official <code>FILE_UPLOAD</code> protocol following explicit user consent.</li>
+        <li>To monitor publication status via <code>/v2/post/publish/status/fetch/</code> until TikTok reports processing completion.</li>
+      </ul>
+
+      <h2>4. Data Storage and Security</h2>
+      <p>
+        Zaitoon Studio does not operate a centralized remote database for creator tokens. OAuth credentials and tokens reside entirely within the creator's local filesystem with restricted read/write permissions. Tokens are exchanged directly between the creator's machine and TikTok's official OAuth endpoints (<code>open.tiktokapis.com</code>) over encrypted TLS 1.3 channels.
+      </p>
+
+      <h2>5. Data Sharing and Third Parties</h2>
+      <p>
+        We do not share, disclose, or transfer any creator data to third parties, except as required by the integrated platform (TikTok) to execute the creator's explicit publishing requests. All interactions with TikTok are governed by the <a href="https://www.tiktok.com/legal/privacy-policy" target="_blank" rel="noopener">TikTok Privacy Policy</a> and <a href="https://developers.tiktok.com/doc/developer-terms-of-service" target="_blank" rel="noopener">TikTok Developer Terms of Service</a>.
+      </p>
+
+      <h2>6. Creator Data Control and Revocation</h2>
+      <p>
+        Creators maintain complete sovereignty over their data:
+      </p>
+      <ul>
+        <li>
+          <strong>Revoking Application Access:</strong> Creators may revoke Zaitoon Studio's access to their TikTok account at any time by navigating in the TikTok app to: <em>Settings and Privacy → Security → Manage App Permissions</em> and removing Zaitoon Studio.
+        </li>
+        <li>
+          <strong>Local Data Deletion:</strong> Creators can permanently delete all local token and state files by removing the local <code>tiktok_tokens.json</code> and <code>publication_state.json</code> files from their project directory.
+        </li>
+        <li>
+          <strong>Data Deletion Requests:</strong> For any inquiries or requests regarding stored integration data, contact our designated privacy contact at <a href="mailto:refayatul@gmail.com">refayatul@gmail.com</a>.
+        </li>
+      </ul>
+
+      <h2>7. Children's Privacy</h2>
+      <p>
+        Zaitoon Studio is intended for authorized content creators of legal age to operate digital publishing channels. We do not knowingly collect personal data from individuals under 13 years of age (or under 16 in applicable European jurisdictions), in strict adherence with the Children's Online Privacy Protection Act (COPPA).
+      </p>
+
+      <h2>8. Changes to this Privacy Policy</h2>
+      <p>
+        We may update this Privacy Policy periodically to reflect enhancements to our workflow or changes in platform partner guidelines. Any revisions will be published on this page with an updated "Last Updated" date.
+      </p>
+
+      <h2>9. Contact Us</h2>
+      <p>
+        If you have questions, concerns, or requests regarding this Privacy Policy or Zaitoon Studio's data practices, please reach out directly:
+      </p>
+      <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 1rem;">
+        <p style="margin-bottom: 0.5rem;"><strong>Zaitoon Studio Engineering & Compliance</strong></p>
+        <p style="margin-bottom: 0.5rem;">Lead Developer: Md. Refayatul Islam</p>
+        <p style="margin-bottom: 0.5rem;">Email: <a href="mailto:refayatul@gmail.com">refayatul@gmail.com</a></p>
+        <p style="margin-bottom: 0;">Location: Dhaka, Bangladesh</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-link" style="margin-bottom: 0.75rem;">
+            <img src="/assets/zaitoon_studio_app_icon_1024.png" alt="Zaitoon Studio" class="brand-icon" style="width: 32px; height: 32px;">
+            <span>Zaitoon Studio</span>
+          </div>
+          <p>An umbrella vertical video production and creator review studio.</p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="/#overview">Overview</a></li>
+            <li><a href="/#workflow">Workflow</a></li>
+            <li><a href="/review">TikTok Review Guide</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Legal</h5>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="mailto:refayatul@gmail.com">refayatul@gmail.com</a></li>
+            <li><a href="https://github.com/Refayatul/zaitoon-studio" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Zaitoon Studio. All rights reserved.</div>
+        <div>Compliant with TikTok Content Sharing Guidelines</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
